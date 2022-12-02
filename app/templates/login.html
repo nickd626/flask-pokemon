@@ -10,13 +10,36 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
-    <title>Sign up</title>
+    <title>Sign In</title>
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="poke">Pokemon</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+            <a class="nav-link active" href="login">Sign In</a>
+            <a class="nav-link active" href="signup">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </nav>
     <section
       class="vh-100 bg-image"
       style="
-        background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');
+        background-image: url('https://wallpapercave.com/wp/wp4925152.jpg');
       "
     >
       <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -27,40 +50,22 @@
             <div class="col-12 col-md-9 col-lg-7 col-xl-6">
               <div class="card" style="border-radius: 15px">
                 <div class="card-body p-5">
-                  <h2 class="text-uppercase text-center mb-5">
-                    Sign In
-                  </h2>
-
+                  <h2 class="text-uppercase text-center mb-5">Sign In</h2>
+                  <form>
+                    {{ form.hidden_tag() }}
                     <div class="form-outline mb-4">
-                      <input
-                        type="email"
-                        id="form3Example3cg"
-                        class="form-control form-control-lg"
-                      />
-                      <label class="form-label" for="form3Example3cg"
-                        >Your Email</label
-                      >
+                      {{form.userEmail(class="form-control form-control-lg",
+                      placeholder="Email")}}
                     </div>
 
                     <div class="form-outline mb-4">
-                      <input
-                        type="password"
-                        id="form3Example4cg"
-                        class="form-control form-control-lg"
-                      />
-                      <label class="form-label" for="form3Example4cg"
-                        >Password</label
-                      >
+                      {{form.userPassword(class="form-control form-control-lg",
+                      placeholder="Password")}}
                     </div>
-
 
                     <div class="d-flex justify-content-center">
-                      <button
-                        type="button"
-                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
-                      >
-                        Sign In
-                      </button>
+                      {{form.submit(class="btn btn-primary btn-block btn-lg
+                      gradient-custom-4 border-dark text-light", value="Sign In")}}
                     </div>
 
                     <p class="text-center text-muted mt-5 mb-0">

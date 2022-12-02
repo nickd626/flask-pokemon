@@ -1,24 +1,21 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
-from app.auth.auth_templates.forms import PokemonForm
+from app.auth.auth_templates.forms import PokemonForm, UserCreationForm, UserSignInForm
 from config import Config
 
 app = Flask(__name__)
 
 app.config.from_object(Config)
 
-# def pokemonStats(pk):
-#     pkURL = f'https://pokeapi.co/api/v2/pokemon/{pk}'
-#     pokemon = requests.get(pkURL)
-#     pokemonName = pokemon.json()['forms'][0]['name']
-#     pokemonAbility = pokemon.json()['abilities'][1]['ability']['name']
-#     pokemonBaseExperience = pokemon.json()['base_experience']
-#     pokemonSpriteDefault = pokemon.json()['sprites']['front_default']
-#     pokemonSpriteShiny = pokemon.json()['sprites']['front_shiny']
-#     pokemonAttack = pokemon.json()['stats'][1]['base_stat']
-#     pokemonHP = pokemon.json()['stats'][0]['base_stat']
-#     pokemonDefense = pokemon.json()['stats'][2]['base_stat']
-#     print(f'Name: {pokemonName}\nAbility: {pokemonAbility}\nBase Experience: {pokemonBaseExperience}\nDefault sprite url: {pokemonSpriteDefault}\nShiny sprite url: {pokemonSpriteShiny}\nBase attack: {pokemonAttack}\nBase HP: {pokemonHP}\nBase Defense: {pokemonDefense}\n------------------------------')
+def pokemonStats(pk):
+    pkURL = f'https://pokeapi.co/api/v2/pokemon/{pk}'
+    pokemon = requests.get(pkURL)
+    pokemonName = pokemon.json()['forms'][0]['name']
+    pokemonAbility = pokemon.json()['abilities'][1]['ability']['name']
+    pokemonSpriteShiny = pokemon.json()['sprites']['front_shiny']
+    pokemonAttack = pokemon.json()['stats'][1]['base_stat']
+    pokemonHP = pokemon.json()['stats'][0]['base_stat']
+    pokemonDefense = pokemon.json()['stats'][2]['base_stat']
 
 
 @app.route('/', methods = ['GET'])
@@ -28,12 +25,24 @@ def index():
 @app.route('/poke', methods = ['GET', 'POST'])
 def poke():
     form = PokemonForm()
+    if request.method == 'POST':
+        if form.validate():
+            pokemon = form.pokemonName.data.lower()
+            pokemonStats(pokemon)
     return render_template('poke.html', form=form)
 
 @app.route('/login', methods = ['GET'])
 def login():
-    return render_template('login.html')
+    form = UserSignInForm()
+    return render_template('login.html', form=form)
 
-@app.route('/signup', methods = ['GET'])
+@app.route('/signup', methods = ['GET', 'POST'])
 def signup():
-    return render_template('signup.html')
+    form = UserCreationForm()
+    if request.method == 'POST':
+        if form.validate():
+            name = form.name.data
+            email = form.email.data
+            password = form.password.data
+            print(name, email, password)
+    return render_template('signup.html', form=form)
