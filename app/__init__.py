@@ -5,6 +5,8 @@ from config import Config
 
 app = Flask(__name__)
 
+app.config.from_object(Config)
+
 # def pokemonStats(pk):
 #     pkURL = f'https://pokeapi.co/api/v2/pokemon/{pk}'
 #     pokemon = requests.get(pkURL)
