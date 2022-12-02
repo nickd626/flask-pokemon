@@ -1,11 +1,20 @@
 from flask import Flask, render_template, request
+from flask_migrate import Migrate
+from .models import db
 import requests
 from app.auth.auth_templates.forms import PokemonForm, UserCreationForm, UserSignInForm
+from app.models import User
 from config import Config
 
 app = Flask(__name__)
 
 app.config.from_object(Config)
+
+db.init_app(app)
+migrate = Migrate(app, db)
+
+from . import routes
+from . import models
 
 def pokemonStats(pk):
     pkURL = f'https://pokeapi.co/api/v2/pokemon/{pk}'
@@ -44,5 +53,8 @@ def signup():
             name = form.name.data
             email = form.email.data
             password = form.password.data
+
             print(name, email, password)
+
+            user = User(name, email, password)
     return render_template('signup.html', form=form)
