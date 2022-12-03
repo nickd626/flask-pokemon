@@ -7,7 +7,9 @@ class PokemonForm(FlaskForm):
     submit = SubmitField()
 
 class UserCreationForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    username = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirmPassword = PasswordField('Confirm Password', validators=[DataRequired()])

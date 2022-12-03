@@ -56,14 +56,25 @@
 
                   <form method="POST">
                     {{ form.hidden_tag() }}
+
                     <div class="form-outline mb-4">
-                      {{form.name(class="form-control form-control-lg",
-                      placeholder="Your Name")}}
+                        {{form.first_name(class="form-control form-control-lg",
+                        placeholder="First Name")}}
+                      </div>
+
+                      <div class="form-outline mb-4">
+                        {{form.last_name(class="form-control form-control-lg",
+                        placeholder="Last name")}}
+                      </div>
+
+                    <div class="form-outline mb-4">
+                      {{form.username(class="form-control form-control-lg",
+                      placeholder="Username")}}
                     </div>
 
                     <div class="form-outline mb-4">
                       {{form.email(class="form-control form-control-lg",
-                      placeholder="Your Email")}}
+                      placeholder="Email")}}
                     </div>
 
                     <div class="form-outline mb-4">
