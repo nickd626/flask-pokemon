@@ -68,7 +68,7 @@
                   </form>
                   {% if form.pokemonName.data %}
                   <h3>Name: {{form.pokemonName.data.title()}}</h3>
-                  <h3>Sprite: {{ pokemonSpriteShiny }}</h3>
+                  <img src="{{ pokemonSpriteShiny }}" alt="pokemon sprite"></img>
                   <h3>Ability: {{ pokemonAbility }}</h3>
                   <h3>Attack: {{ pokemonAttack }}</h3>
                   <h3>HP: {{ pokemonHP }}</h3>
