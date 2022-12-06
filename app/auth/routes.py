@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 import requests
 from app.auth.auth_templates.forms import PokemonForm, UserCreationForm, UserSignInForm
+from app.models import User
 
 auth = Blueprint('auth', __name__, template_folder='auth_templates')
 
@@ -14,17 +15,17 @@ def signup():
     form = UserCreationForm()
     if request.method == 'POST':
         if form.validate():
-            pokemon = form.pokemonName.data.lower()
-            pkURL = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
-            pokemon = requests.get(pkURL)
-            pokemonAbility = pokemon.json()['abilities'][1]['ability']['name']
-            pokemonSpriteShiny = pokemon.json()['sprites']['front_shiny']
-            pokemonAttack = pokemon.json()['stats'][1]['base_stat']
-            pokemonHP = pokemon.json()['stats'][0]['base_stat']
-            pokemonDefense = pokemon.json()['stats'][2]['base_stat']
-    return render_template('signup.html', form=form)
+            
+            return render_template('signup.html', form=form)
 
-@auth.route('/login')
+@auth.route('/login', methods = ['GET', 'POST'])
 def login():
     form = UserSignInForm()
+    if request.method == 'POST':
+        if form.validate():
+            email = form.userEmail.data
+            password = form.userPassword.data
+
+            user = User.query.filter_by(email=email).first()
+            print(user)
     return render_template('login.html', form=form)

@@ -5,6 +5,7 @@ import requests
 from app.auth.auth_templates.forms import PokemonForm, UserCreationForm, UserSignInForm
 from app.models import User
 from config import Config
+from flask_moment import Moment
 
 app = Flask(__name__)
 
@@ -15,11 +16,12 @@ migrate = Migrate(app, db)
 
 from . import models
 
-
+moment = Moment(app)
 
 @app.route('/', methods = ['GET'])
 def index():
-    return render_template('index.html')
+    user = User.first_name
+    return render_template('index.html', user=user)
 
 pokemonName = ''
 pokemonAbility = ''
@@ -45,10 +47,24 @@ def poke():
             return render_template('poke.html', form=form, pokemonName=pokemonName, pokemonAbility=pokemonAbility, pokemonAttack=pokemonAttack, pokemonSpriteShiny=pokemonSpriteShiny, pokemonHP=pokemonHP, pokemonDefense=pokemonDefense)
     return render_template('poke.html', form=form)
 
-@app.route('/login', methods = ['GET'])
+@app.route('/login', methods = ['GET', 'POST'])
 def login():
     form = UserSignInForm()
-    return render_template('login.html', form=form)
+    if request.method == 'POST':
+        if form.validate():
+            email = form.userEmail.data
+            password = form.userPassword.data
+
+            user = User.query.filter_by(email=email).first()
+            if user:
+                db_password = User.query.filter_by(password=password).first()
+                if password == db_password:
+                    print('logged in')
+                else:
+                    print('Invalid password')
+            else:
+                print('user does not exist')
+            return render_template('login.html', form=form)
 
 @app.route('/signup', methods = ['GET', 'POST'])
 def signup():
