@@ -10,7 +10,7 @@ class User(db.Model):
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(250), nullable=False, unique=True)
     password = db.Column(db.String(250), nullable=False)
-    team = db.relationship('Team')
+    team = db.relationship('Team', backref='Captain', lazy=True)
 
     def __init__(self, first_name, last_name, username, email, password):
         self.first_name = first_name

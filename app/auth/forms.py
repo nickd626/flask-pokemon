@@ -12,10 +12,10 @@ class UserCreationForm(FlaskForm):
     username = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo(password)])
+    confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField()
 
 class UserSignInForm(FlaskForm):
-    userEmail = StringField('Email', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
     userPassword = StringField('Password', validators=[DataRequired()])
     submit = SubmitField()

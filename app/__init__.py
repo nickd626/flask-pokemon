@@ -2,14 +2,17 @@ from flask import Flask, render_template, request
 from flask_migrate import Migrate
 from .models import db
 import requests
-from app.auth.auth_templates.forms import PokemonForm, UserCreationForm, UserSignInForm
+from app.auth.forms import PokemonForm, UserCreationForm, UserSignInForm
 from app.models import User
 from config import Config
 from flask_moment import Moment
+from .auth.routes import auth
 
 app = Flask(__name__)
 
 app.config.from_object(Config)
+
+app.register_blueprint(auth)
 
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -52,10 +55,10 @@ def login():
     form = UserSignInForm()
     if request.method == 'POST':
         if form.validate():
-            email = form.userEmail.data
+            username = form.username.data
             password = form.userPassword.data
 
-            user = User.query.filter_by(email=email).first()
+            user = User.query.filter_by(username=username).first()
             if user:
                 db_password = User.query.filter_by(password=password).first()
                 if password == db_password:
@@ -65,19 +68,5 @@ def login():
             else:
                 print('user does not exist')
             return render_template('login.html', form=form)
+    return render_template('login.html', form=form)
 
-@app.route('/signup', methods = ['GET', 'POST'])
-def signup():
-    form = UserCreationForm()
-    if request.method == 'POST':
-        if form.validate():
-            first_name = form.first_name.data
-            last_name = form.last_name.data
-            username = form.username.data
-            email = form.email.data
-            password = form.password.data
-
-            user = User(first_name, last_name, username, email, password)
-            db.session.add(user)
-            db.session.commit()
-    return render_template('signup.html', form=form)
