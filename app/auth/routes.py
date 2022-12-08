@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash
 import requests
-from app.auth.forms import PokemonCatch, PokemonForm, UserCreationForm, UserSignInForm
-from app.models import Team, User, db
+from app.auth.forms import PokemonForm, UserCreationForm, UserSignInForm
+from app.models import Pokemon, Team, User, db
 from flask_login import login_user, logout_user, current_user
 from werkzeug.security import check_password_hash
 
@@ -20,24 +20,24 @@ def poke():
             pokemon = form.pokemonName.data.lower()
             pkURL = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
             pokemonRequest = requests.get(pkURL)
-            pokemonName = pokemonRequest.json()['forms'][0]['name']
+            pokemonName = pokemonRequest.json()['forms'][0]['name'].title()
             pokemonAbility = pokemonRequest.json()['abilities'][1]['ability']['name']
             pokemonSpriteShiny = pokemonRequest.json()['sprites']['front_shiny']
             pokemonAttack = pokemonRequest.json()['stats'][1]['base_stat']
             pokemonHP = pokemonRequest.json()['stats'][0]['base_stat']
             pokemonDefense = pokemonRequest.json()['stats'][2]['base_stat']
-            return render_template('poke.html', form=form, pokemonName=pokemonName, pokemonAbility=pokemonAbility, pokemonAttack=pokemonAttack, pokemonSpriteShiny=pokemonSpriteShiny, pokemonHP=pokemonHP, pokemonDefense=pokemonDefense, catch=PokemonCatch.catch)
-    return render_template('poke.html', form=form, catch=PokemonCatch.catch)
-
-@auth.route('/poke/catch', methods = ['GET', 'POST'])
-def catch():
-    form = PokemonCatch()
-    if catch.validate():
-        pokemon = form.catch.data
-        db.session.add(pokemon)
-        db.session.commit()
-        return render_template('poke.html', form=form, pokemon=pokemon)
-    return render_template('poke.html', form=form, pokemon=pokemon)
+            
+            if Pokemon.query.filter_by(name=pokemonName).all() == False:
+                pk = Pokemon(pokemonName, pokemonHP, pokemonDefense, pokemonAttack, pokemonSpriteShiny, pokemonAbility)
+                db.session.add(pk)
+                db.session.commit()
+            
+            tpk = Pokemon.query.filter_by(name=pokemonName).first()
+            team = Team(User.id, tpk.name, tpk.name, tpk.name, tpk.name, tpk.name)
+            db.session.add(team)
+            db.session.commit()
+            return render_template('poke.html', form=form, pokemonName=pokemonName, pokemonAbility=pokemonAbility, pokemonAttack=pokemonAttack, pokemonSpriteShiny=pokemonSpriteShiny, pokemonHP=pokemonHP, pokemonDefense=pokemonDefense)
+    return render_template('poke.html', form=form)
 
 @auth.route('/signup', methods = ['GET', 'POST'])
 def signup():

@@ -24,7 +24,6 @@ class User(db.Model, UserMixin):
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    teamName = db.Column(db.String(25), nullable=False)
     pk1 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
     pk2 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
     pk3 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))

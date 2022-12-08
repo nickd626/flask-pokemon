@@ -61,18 +61,16 @@
       <h4 class="lead welcome-h4">Would you like to draft new pokemon or view your team?</h4>
       <a class="btn btn-primary btn-lg welcome-btn" href="poke" role="button">Draft Pokemon</a>
       <a class="btn btn-outline-dark btn-lg view welcome-btn" href="poke/team" role="button">View My Team</a>
-    {% else %}
-      <h1 class="display-4">Hello!</h1>
-      <p class="lead">This is a team Pokemon battler!</p>
-      <hr class="my-4">
-      <p>Please create an account or sign in to get started.</p>
-      <p class="lead">
-        <a class="btn btn-primary btn-lg" href="signup" role="button">Create Account</a>
-      </p>
-      <p class="lead">
-        <a class="btn btn-secondary btn-lg" href="login" role="button">Sign In</a>
-      </p>
-      {% endif %}
+    
+      <div class="card" style="width: 18rem;">
+        <img src="{{pokemonSpriteShiny}}" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+
   </div>
 </div>
 </div>

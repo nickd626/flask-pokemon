@@ -80,14 +80,6 @@
                     <h3>Attack: {{ pokemonAttack }}</h3>
                     <h3>HP: {{ pokemonHP }}</h3>
                     <h3>Defense: {{ pokemonDefense }}</h3>
-                    <form method="POST">
-                      {{ form.hidden_tag() }}
-                      <div class="d-flex justify-content-center">
-                        {{form.catch(class="btn btn-primary btn-block btn-lg
-                        gradient-custom-4 border-dark text-light",
-                        value="Catch Pokemon")}}
-                      </div>
-                    </form>
                   </div>
                   {% endif %}
                 </div>
