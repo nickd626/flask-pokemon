@@ -10,6 +10,7 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
     <title>Pokemon</title>
   </head>
   <body>
@@ -30,8 +31,13 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
+          {% if user %}
+            <a class="nav-link active" href="#">My Team</a>
+            <a class="nav-link active">{{ current_user.username }}</a>
+            {% else %}
             <a class="nav-link active" href="login">Sign In</a>
             <a class="nav-link active" href="signup">Sign Up</a>
+          {% endif %}
           </div>
         </div>
       </div>
@@ -51,19 +57,22 @@
           <div class="card" style="border-radius: 15px">
   <div class="jumbotron bg-white p-5" style="border-radius: 15px;">
     {% if user %}
-      <h1 class="display-4">Hello, {{ current_user }}!</h1>
+      <h1 class="display-4">Welcome back, {{ current_user.first_name }}!</h1>
+      <h4 class="lead welcome-h4">Would you like to draft new pokemon or view your team?</h4>
+      <a class="btn btn-primary btn-lg welcome-btn" href="poke" role="button">Draft Pokemon</a>
+      <a class="btn btn-outline-dark btn-lg view welcome-btn" href="#" role="button">View My Team</a>
     {% else %}
       <h1 class="display-4">Hello!</h1>
-    {% endif %}
-    <p class="lead">This is a team Pokemon battler!</p>
-    <hr class="my-4">
-    <p>Please create an account or sign in to get started.</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="signup" role="button">Create Account</a>
-    </p>
-    <p class="lead">
-      <a class="btn btn-secondary btn-lg" href="login" role="button">Sign In</a>
-    </p>
+      <p class="lead">This is a team Pokemon battler!</p>
+      <hr class="my-4">
+      <p>Please create an account or sign in to get started.</p>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="signup" role="button">Create Account</a>
+      </p>
+      <p class="lead">
+        <a class="btn btn-secondary btn-lg" href="login" role="button">Sign In</a>
+      </p>
+      {% endif %}
   </div>
 </div>
 </div>

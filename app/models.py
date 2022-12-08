@@ -25,11 +25,11 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     teamName = db.Column(db.String(25), nullable=False)
-    pk1 = db.Column(db.String(15), db.ForeignKey('pokemon.name'), nullable=False)
-    pk2 = db.Column(db.String(15), db.ForeignKey('pokemon.name'), nullable=False)
-    pk3 = db.Column(db.String(15), db.ForeignKey('pokemon.name'), nullable=False)
-    pk4 = db.Column(db.String(15), db.ForeignKey('pokemon.name'), nullable=False)
-    pk5 = db.Column(db.String(15), db.ForeignKey('pokemon.name'), nullable=False)
+    pk1 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
+    pk2 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
+    pk3 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
+    pk4 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
+    pk5 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
 
     def __init__(self, teamName, pk1, pk2, pk3, pk4, pk5):
         self.teamName = teamName

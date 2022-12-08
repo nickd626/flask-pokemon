@@ -31,8 +31,13 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
+          {% if user %}
+            <a class="nav-link active" href="#">My Team</a>
+            <a class="nav-link active">{{ current_user.username }}</a>
+          {% else %}
             <a class="nav-link active" href="login">Sign In</a>
             <a class="nav-link active" href="signup">Sign Up</a>
+          {% endif %}
           </div>
         </div>
       </div>
@@ -70,11 +75,19 @@
                   {% if form.pokemonName.data %}
                   <div class="poke-data">
                     <h3>Name: {{form.pokemonName.data.title()}}</h3>
-                    <img src="{{ pokemonSpriteShiny }}" alt="pokemon sprite" width="200px"></img>
+                    <img class="shiny" src="{{ pokemonSpriteShiny }}" alt="pokemon sprite" width="250px"></img>
                     <h3>Ability: {{ pokemonAbility.title() }}</h3>
                     <h3>Attack: {{ pokemonAttack }}</h3>
                     <h3>HP: {{ pokemonHP }}</h3>
                     <h3>Defense: {{ pokemonDefense }}</h3>
+                    <form method="POST">
+                      {{ form.hidden_tag() }}
+                      <div class="d-flex justify-content-center">
+                        {{form.catch(class="btn btn-primary btn-block btn-lg
+                        gradient-custom-4 border-dark text-light",
+                        value="Catch Pokemon")}}
+                      </div>
+                    </form>
                   </div>
                   {% endif %}
                 </div>
