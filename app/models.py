@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
 
@@ -18,7 +19,7 @@ class User(db.Model, UserMixin):
         self.last_name = last_name
         self.username = username
         self.email = email
-        self.password = password
+        self.password = generate_password_hash(password)
 
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
