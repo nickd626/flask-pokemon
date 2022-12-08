@@ -3,6 +3,7 @@ import requests
 from app.auth.forms import PokemonForm, UserCreationForm, UserSignInForm
 from app.models import User, db
 from flask_login import login_user, logout_user, current_user
+from werkzeug.security import check_password_hash
 
 auth = Blueprint('auth', __name__, template_folder='auth_templates')
 
@@ -56,9 +57,9 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user:
             print('user recongized')
-            if password == user.password:
+            if check_password_hash(user.password, password):
                 print('Logged in successfully')
-                login_user(User)
+                login_user(user)
             else:
                 print('Invalid Password')
         else:
