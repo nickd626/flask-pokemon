@@ -17,5 +17,5 @@ class UserCreationForm(FlaskForm):
 
 class UserSignInForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    userPassword = StringField('Password', validators=[DataRequired()])
+    password = StringField('Password', validators=[DataRequired()])
     submit = SubmitField()
