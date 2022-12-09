@@ -31,9 +31,20 @@ def poke():
                 pk = Pokemon(pokemonName, pokemonHP, pokemonDefense, pokemonAttack, pokemonSpriteShiny, pokemonAbility)
                 db.session.add(pk)
                 db.session.commit()
-            
+            current_id = current_user.id
+            result = Team.query.filter_by(userID=current_id)
+            print(result)
             tpk = Pokemon.query.filter_by(name=pokemonName).first()
-            team = Team(User.id, tpk.name, tpk.name, tpk.name, tpk.name, tpk.name)
+            if Team.query.filter_by(pk1=None):
+                team = Team(userID=current_id, pk1=tpk.name, pk2=None, pk3=None, pk4=None, pk5=None)
+            elif Team.query.filter_by(pk2=None):
+                team = Team(userID=current_id, pk2=tpk.name, pk1=None, pk3=None, pk4=None, pk5=None)
+            elif Team.query.filter_by(pk3=None):
+                team = Team(userID=current_id, pk3=tpk.name, pk2=None, pk1=None, pk4=None, pk5=None)
+            elif Team.query.filter_by(pk3=None):
+                team = Team(userID=current_id, pk4=tpk.name, pk2=None, pk3=None, pk1=None, pk5=None)
+            elif Team.query.filter_by(pk3=None):
+                team = Team(userID=current_id, pk5=tpk.name, pk2=None, pk3=None, pk4=None, pk1=None)
             db.session.add(team)
             db.session.commit()
             return render_template('poke.html', form=form, pokemonName=pokemonName, pokemonAbility=pokemonAbility, pokemonAttack=pokemonAttack, pokemonSpriteShiny=pokemonSpriteShiny, pokemonHP=pokemonHP, pokemonDefense=pokemonDefense)

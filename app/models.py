@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
         self.email = email
         self.password = generate_password_hash(password)
 
-class Team(db.Model):
+class Team(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     pk1 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
@@ -30,8 +30,8 @@ class Team(db.Model):
     pk4 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
     pk5 = db.Column(db.String(15), db.ForeignKey('pokemon.name'))
 
-    def __init__(self, teamName, pk1, pk2, pk3, pk4, pk5):
-        self.teamName = teamName
+    def __init__(self, userID, pk1, pk2, pk3, pk4, pk5):
+        self.userID = userID
         self.pk1 = pk1
         self.pk2 = pk2
         self.pk3 = pk3
