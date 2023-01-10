@@ -55,7 +55,6 @@ def signup():
     form = UserCreationForm()
     if request.method == 'POST':
         if form.validate():
-            print('Testing')
             first_name = form.first_name.data
             last_name = form.last_name.data
             username = form.username.data

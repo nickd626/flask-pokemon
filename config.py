@@ -1,4 +1,5 @@
 import os
+# Allows variable access from other files
 
 basedir = os.path.abspath(os.path.dirname(__name__))
 
