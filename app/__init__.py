@@ -1,3 +1,4 @@
+from . import models
 from flask import Flask, render_template, request
 from flask_migrate import Migrate
 from .models import db
@@ -18,14 +19,15 @@ app.register_blueprint(auth)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
+
 db.init_app(app)
 migrate = Migrate(app, db)
 
-from . import models
 
 moment = Moment(app)
 

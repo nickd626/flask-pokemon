@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(25), nullable=False)
@@ -20,6 +21,15 @@ class User(db.Model, UserMixin):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
+
+
+team_pokemon = db.Table('team_pokemon',
+                        db.Column('team_id', db.Integer, db.ForeignKey(
+                            'team.id'), primary_key=True),
+                        db.Column('pokemon_id', db.Integer, db.ForeignKey(
+                            'pokemon.id'), primary_key=True)
+                        )
+
 
 class Team(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +47,7 @@ class Team(db.Model, UserMixin):
         self.pk3 = pk3
         self.pk4 = pk4
         self.pk5 = pk5
+
 
 class Pokemon(db.Model):
     id = db.Column(db.Integer, primary_key=True)

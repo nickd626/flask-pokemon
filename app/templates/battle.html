@@ -43,6 +43,7 @@
       class="vh-100 bg-image"
       style="
         background-image: url('https://wallpapercave.com/wp/wp4925152.jpg');
+        background-size: cover;
       "
     >
       <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -52,41 +53,51 @@
           >
             <div class="col-12 col-md-9 col-lg-7 col-xl-6">
               <div class="card" style="border-radius: 15px">
-                <div class="card-body p-5">
-                  <h2 class="text-uppercase text-center mb-5">
-                    Select Pokemon
-                  </h2>
-                  <form method="POST">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group"></div>
-                    <div class="form-outline mb-4">
-                      {{form.pokemonName(class="form-control form-control-lg",
-                      placeholder="Name of Pokemon")}}
+                <div class="card-body p-5 w-100">
+                    <div style="text-align: center;">
+                    {% if winner == 'tie' %}
+                        <h2>It's a Tie!</h2>
+                    {% elif winner == current_user.username %}
+                        <h2>You Won!</h2>
+                    {% else %}
+                        <h2>{{ winner }} won!</h2>
+                    {% endif %}
                     </div>
-                    <div class="d-flex justify-content-center">
-                      {{form.submit(class="btn btn-primary btn-block btn-lg
-                      gradient-custom-4 border-dark text-light",
-                      value="Submit")}}
+                    {% for pokemon in user_team %}
+                    {% if name %}
+                        {% set pokemon = Pokemon.query.filter_by(name=name).first() %}
+                        <div class="poke-data" style="display: flex;">
+                            <h3>Name {{ pokemon.name }}</h3>
+                            <img class="shiny" src="{{ pokemon.front_shiny }}" alt="{{ pokemon.name }} sprite" width="250px"></img>
+                            <h3>Ability {{ pokemon.ability }}</h3>
+                            <h3>Attack {{ pokemon.attack }}</h3>
+                            <h3>HP {{ pokemon.hp }}</h3>
+                            <h3>Defense {{ pokemon.defense }}</h3>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="card" style="border-radius: 15px">
+                    <div class="card-body p-5 w-100">
+                    {% for pokemon in opponent_team %}
+                    {% if name %}
+                        {% set pokemon = Pokemon.query.filter_by(name=name).first() %}
+                        <div class="poke-data" style="display: flex;">
+                            <h3>Name {{ pokemon.name }}</h3>
+                            <img class="shiny" src="{{ pokemon.front_shiny }}" alt="{{ pokemon.name }} sprite" width="250px"></img>
+                            <h3>Ability {{ pokemon.ability }}</h3>
+                            <h3>Attack {{ pokemon.attack }}</h3>
+                            <h3>HP {{ pokemon.hp }}</h3>
+                            <h3>Defense {{ pokemon.defense }}</h3>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                
                     </div>
-                  </form>
-                  {% if form.pokemonName.data %}
-                  <div class="poke-data">
-                    <h3>Name: {{form.pokemonName.data.title()}}</h3>
-                    <img class="shiny" src="{{ pokemonSpriteShiny }}" alt="pokemon sprite" width="250px"></img>
-                    <h3>Ability: {{ pokemonAbility.title() }}</h3>
-                    <h3>Attack: {{ pokemonAttack }}</h3>
-                    <h3>HP: {{ pokemonHP }}</h3>
-                    <h3>Defense: {{ pokemonDefense }}</h3>
-                  <form method="POST">
-                    {{ catch.hidden_tag() }}
-                    <div class="d-flex justify-content-center">
-                      {{form.submit(class="btn btn-primary btn-block btn-lg
-                      gradient-custom-4 border-dark text-light",
-                      value="Catch")}}
+                    </div>
                     </div>
                   </form>
                   </div>
-                  {% endif %}
                 </div>
               </div>
             </div>
